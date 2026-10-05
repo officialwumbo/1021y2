@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8dfe7" />
+  <title>Happy 2 Year Anniversary, Nami! 🌸</title>
+
+  <!-- Elegant + friendly type pairing -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Confetti library requested in the brief -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* =========================================================
+       1) DESIGN TOKENS + BASE
+       ========================================================= */
+    :root {
+      --cream: #fffaf5;
+      --blush: #fbe7ec;
+      --pink: #f5cbd7;
+      --rose: #d98299;
+      --deep-rose: #9b5068;
+      --berry: #783d55;
+      --sage: #b9c9ae;
+      --sage-dark: #75886d;
+      --white: rgba(255, 255, 255, 0.82);
+      --ink: #583743;
+      --muted: #8d6873;
+      --shadow: 0 20px 60px rgba(117, 67, 83, 0.16);
+      --soft-shadow: 0 10px 28px rgba(117, 67, 83, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 6%, rgba(255,255,255,.95) 0 5%, transparent 26%),
+        radial-gradient(circle at 92% 16%, rgba(243, 204, 214, .55) 0 7%, transparent 30%),
+        radial-gradient(circle at 18% 84%, rgba(190, 210, 178, .35) 0 8%, transparent 28%),
+        linear-gradient(135deg, #fffaf6 0%, #fce8ee 44%, #f8f0e7 72%, #eff3e9 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -3;
+      opacity: .42;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.82) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 80% 40%, rgba(255,255,255,.74) 0 1px, transparent 1.5px);
+      background-size: 32px 32px, 46px 46px;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 26px 0 72px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* =========================================================
+       2) FLOATING DECORATION
+       ========================================================= */
+    #petal-layer {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .petal {
+      position: absolute;
+      top: -12vh;
+      width: 14px;
+      height: 19px;
+      border-radius: 70% 20% 70% 30%;
+      background: linear-gradient(145deg, #fff0f4, #ecafc1);
+      opacity: .62;
+      filter: drop-shadow(0 2px 3px rgba(128, 72, 91, .08));
+      animation:
+        petalFall linear infinite,
+        petalSway ease-in-out infinite alternate;
+    }
+
+    .petal.sage {
+      background: linear-gradient(145deg, #dce7d6, #a8bba0);
+      opacity: .45;
+      border-radius: 75% 10% 75% 20%;
+    }
+
+    @keyframes petalFall {
+      from {
+        transform: translateY(-14vh) rotate(0deg);
+      }
+      to {
+        transform: translateY(120vh) rotate(540deg);
+      }
+    }
+
+    @keyframes petalSway {
+      from { margin-left: -28px; }
+      to { margin-left: 28px; }
+    }
+
+    .corner-bloom {
+      position: fixed;
+      width: min(220px, 34vw);
+      aspect-ratio: 1;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .52;
+      filter: blur(.1px);
+    }
+
+    .corner-bloom.top-left {
+      top: -54px;
+      left: -58px;
+      transform: rotate(-16deg);
+    }
+
+    .corner-bloom.bottom-right {
+      right: -62px;
+      bottom: -65px;
+      transform: rotate(170deg);
+    }
+
+    .corner-bloom .stem {
+      position: absolute;
+      left: 46%;
+      top: 12%;
+      width: 9%;
+      height: 82%;
+      background: linear-gradient(var(--sage-dark), var(--sage));
+      border-radius: 999px;
+      transform: rotate(38deg);
+      opacity: .8;
+    }
+
+    .corner-bloom .flower,
+    .corner-bloom .leaf {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .corner-bloom .flower {
+      width: 30%;
+      aspect-ratio: 1;
+      background:
+        radial-gradient(circle at 50% 50%, #f7d5a6 0 13%, transparent 14%),
+        radial-gradient(circle at 50% 16%, #f9d5df 0 27%, transparent 28%),
+        radial-gradient(circle at 84% 50%, #f3b8c8 0 27%, transparent 28%),
+        radial-gradient(circle at 50% 84%, #f7c7d3 0 27%, transparent 28%),
+        radial-gradient(circle at 16% 50%, #f6d8df 0 27%, transparent 28%);
+      filter: drop-shadow(0 8px 12px rgba(112, 66, 80, .12));
+    }
+
+    .corner-bloom .flower.f1 { left: 5%; top: 8%; }
+    .corner-bloom .flower.f2 { left: 35%; top: 0%; transform: scale(.74); }
+    .corner-bloom .flower.f3 { left: 5%; top: 35%; transform: scale(.62); }
+
+    .corner-bloom .leaf {
+      width: 35%;
+      height: 17%;
+      background: linear-gradient(135deg, #9db394, #d5e0cf);
+      border-radius: 80% 10% 80% 10%;
+    }
+
+    .corner-bloom .leaf.l1 { left: 38%; top: 40%; transform: rotate(12deg); }
+    .corner-bloom .leaf.l2 { left: 19%; top: 58%; transform: rotate(92deg); }
+    .corner-bloom .leaf.l3 { left: 49%; top: 68%; transform: rotate(34deg) scale(.8); }
+
+    /* =========================================================
+       3) HERO / LOVE NOTE
+       ========================================================= */
+    .hero {
+      min-height: 42vh;
+      display: grid;
+      place-items: center;
+      padding: clamp(28px, 6vw, 72px) 0 32px;
+      text-align: center;
+    }
+
+    .hero-card,
+    .roulette-card {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .8);
+      box-shadow: var(--shadow);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.84), rgba(255,249,245,.70)),
+        radial-gradient(circle at 12% 20%, rgba(245, 194, 208, .25), transparent 30%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .hero-card {
+      width: min(860px, 100%);
+      border-radius: var(--radius-xl);
+      padding: clamp(30px, 5vw, 62px);
+    }
+
+    .hero-card::before,
+    .roulette-card::before,
+    .itinerary::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px dashed rgba(217, 130, 153, .30);
+      border-radius: calc(var(--radius-xl) - 9px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .mini-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: var(--deep-rose);
+      background: rgba(248, 218, 226, .66);
+      border: 1px solid rgba(219, 151, 169, .38);
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Playfair Display", Georgia, serif;
+      color: var(--berry);
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+      font-size: clamp(2.45rem, 6vw, 5.25rem);
+      line-height: .98;
+      letter-spacing: -.035em;
+    }
+
+    .from-to {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      margin: 18px auto 24px;
+      font-size: clamp(.95rem, 2vw, 1.08rem);
+    }
+
+    .heart-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffe8ef, #fffaf8);
+      border: 1px solid rgba(220, 142, 165, .32);
+      box-shadow: 0 7px 18px rgba(123, 68, 85, .08);
+    }
+
+    .love-note {
+      margin: 0 auto;
+      max-width: 690px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.18rem, 2.5vw, 1.55rem);
+      line-height: 1.78;
+      color: #6f4553;
+    }
+
+    .signature {
+      display: block;
+      margin-top: 12px;
+      font-family: "Poppins", sans-serif;
+      color: var(--deep-rose);
+      font-weight: 600;
+      font-size: .95rem;
+      letter-spacing: .02em;
+    }
+
+    .flower-divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      margin: 24px auto 0;
+      color: var(--rose);
+      opacity: .9;
+    }
+
+    .flower-divider::before,
+    .flower-divider::after {
+      content: "";
+      width: min(120px, 22vw);
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(217, 130, 153, .46));
+    }
+
+    .flower-divider::after {
+      background: linear-gradient(to left, transparent, rgba(217, 130, 153, .46));
+    }
+
+    /* =========================================================
+       4) ROULETTE SECTION
+       ========================================================= */
+    .roulette-wrap {
+      margin-top: 34px;
+    }
+
+    .roulette-card {
+      width: min(1000px, 100%);
+      margin: 0 auto;
+      border-radius: var(--radius-xl);
+      padding: clamp(26px, 4.5vw, 54px);
+    }
+
+    .roulette-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .roulette-header h2 {
+      margin-bottom: 10px;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      line-height: 1.05;
+    }
+
+    .roulette-header p {
+      margin: 0 auto;
+      max-width: 670px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: .98rem;
+    }
+
+    .slot-machine {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 26px 0 24px;
+    }
+
+    .slot {
+      position: relative;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px 18px;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(160deg, rgba(255,255,255,.96), rgba(255,240,245,.74));
+      border: 1px solid rgba(221, 150, 170, .30);
+      box-shadow: var(--soft-shadow);
+      text-align: center;
+    }
+
+    .slot::after {
+      content: "";
+      position: absolute;
+      inset: auto -15% -32% auto;
+      width: 110px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(185, 201, 174, .14);
+      filter: blur(2px);
+    }
+
+    .slot-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 12px;
+      border-radius: 16px;
+      font-size: 1.55rem;
+      background: linear-gradient(135deg, #fff5f8, #f5dce4);
+      border: 1px solid rgba(221, 150, 170, .28);
+      box-shadow: 0 8px 20px rgba(122, 70, 88, .08);
+    }
+
+    .slot-label {
+      margin-bottom: 8px;
+      color: var(--sage-dark);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .slot-value {
+      position: relative;
+      z-index: 1;
+      min-height: 58px;
+      display: grid;
+      place-items: center;
+      font-family: "Playfair Display", Georgia, serif;
+      color: var(--berry);
+      font-size: clamp(1.16rem, 2vw, 1.42rem);
+      line-height: 1.25;
+      font-weight: 600;
+      transition: transform .18s ease, opacity .18s ease, filter .18s ease;
+    }
+
+    .slot.spinning .slot-value {
+      animation: slotFlip .22s linear infinite;
+      filter: blur(.5px);
+    }
+
+    @keyframes slotFlip {
+      0%   { transform: translateY(-8px) scale(.98); opacity: .25; }
+      50%  { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(8px) scale(.98); opacity: .25; }
+    }
+
+    .spin-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .spin-btn {
+      position: relative;
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 15px 24px;
+      color: white;
+      font-weight: 700;
+      font-size: clamp(.95rem, 2vw, 1.06rem);
+      background: linear-gradient(135deg, #d77f98, #b85f7c 58%, #9f4b68);
+      box-shadow:
+        0 13px 24px rgba(154, 75, 103, .25),
+        inset 0 1px 0 rgba(255,255,255,.36);
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+      animation: gentleBounce 2.2s ease-in-out infinite;
+    }
+
+    .spin-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 18px 30px rgba(154, 75, 103, .28),
+        inset 0 1px 0 rgba(255,255,255,.42);
+      filter: saturate(1.05);
+    }
+
+    .spin-btn:active {
+      transform: translateY(1px) scale(.99);
+    }
+
+    .spin-btn:disabled {
+      cursor: wait;
+      opacity: .82;
+      animation: none;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* =========================================================
+       5) RESULT / ITINERARY CARD
+       ========================================================= */
+    .itinerary {
+      position: relative;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(14px) scale(.985);
+      margin: 0 auto;
+      border: 0 solid rgba(217, 130, 153, .25);
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 85% 12%, rgba(183, 202, 174, .20), transparent 30%),
+        linear-gradient(145deg, rgba(255,255,255,.95), rgba(255,245,247,.82));
+      transition:
+        max-height .65s ease,
+        opacity .5s ease,
+        transform .5s ease,
+        margin-top .5s ease,
+        border-width .3s ease,
+        padding .5s ease;
+    }
+
+    .itinerary.visible {
+      max-height: 520px;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      margin-top: 28px;
+      border-width: 1px;
+      padding: clamp(24px, 4vw, 38px);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .itinerary::before {
+      border-radius: calc(var(--radius-lg) - 8px);
+    }
+
+    .itinerary-kicker {
+      text-align: center;
+      color: var(--deep-rose);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .itinerary h3 {
+      margin: 7px 0 20px;
+      text-align: center;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+    }
+
+    .itinerary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .itinerary-item {
+      padding: 17px;
+      border-radius: 16px;
+      background: rgba(255, 250, 248, .72);
+      border: 1px solid rgba(217, 130, 153, .20);
+      text-align: center;
+    }
+
+    .itinerary-item span {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--sage-dark);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .itinerary-item strong {
+      color: var(--berry);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.03rem;
+      line-height: 1.35;
+    }
+
+    .little-promise {
+      margin: 18px auto 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .little-promise strong {
+      color: var(--deep-rose);
+    }
+
+    footer {
+      text-align: center;
+      padding: 34px 14px 0;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    footer .footer-heart {
+      display: inline-block;
+      animation: heartBeat 1.6s ease-in-out infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.13); }
+      30% { transform: scale(1); }
+    }
+
+    /* =========================================================
+       6) RESPONSIVE BEHAVIOR
+       ========================================================= */
+    @media (max-width: 760px) {
+      .page-shell {
+        width: min(100% - 18px, 1120px);
+        padding-top: 14px;
+      }
+
+      .hero {
+        padding-top: 30px;
+      }
+
+      .hero-card,
+      .roulette-card {
+        border-radius: 26px;
+      }
+
+      .slot-machine {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .slot {
+        min-height: 148px;
+        padding: 19px 16px;
+      }
+
+      .slot-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 9px;
+      }
+
+      .slot-value {
+        min-height: 44px;
+      }
+
+      .itinerary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .itinerary.visible {
+        max-height: 760px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: clamp(2.25rem, 12vw, 3.5rem);
+      }
+
+      .hero-card,
+      .roulette-card {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .from-to {
+        gap: 7px;
+      }
+
+      .spin-btn {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      #petal-layer {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Soft decorative bouquet corners -->
+  <div class="corner-bloom top-left" aria-hidden="true">
+    <span class="stem"></span>
+    <span class="flower f1"></span>
+    <span class="flower f2"></span>
+    <span class="flower f3"></span>
+    <span class="leaf l1"></span>
+    <span class="leaf l2"></span>
+    <span class="leaf l3"></span>
+  </div>
+
+  <div class="corner-bloom bottom-right" aria-hidden="true">
+    <span class="stem"></span>
+    <span class="flower f1"></span>
+    <span class="flower f2"></span>
+    <span class="flower f3"></span>
+    <span class="leaf l1"></span>
+    <span class="leaf l2"></span>
+    <span class="leaf l3"></span>
+  </div>
+
+  <!-- Falling petals are generated by JavaScript -->
+  <div id="petal-layer" aria-hidden="true"></div>
+
+  <main class="page-shell">
+    <!-- =======================================================
+         LOVE NOTE
+         ======================================================= -->
+    <section class="hero" aria-labelledby="anniversary-title">
+      <article class="hero-card">
+        <div class="mini-kicker">🌷 Two years of us 🌷</div>
+
+        <h1 id="anniversary-title">Happy 2 Year Anniversary! 🌸</h1>
+
+        <div class="from-to" aria-label="From Ayush to Naamya">
+          <span class="heart-badge">From Yusu 💗</span>
+          <span aria-hidden="true">→</span>
+          <span class="heart-badge">to Nami 🌷</span>
+        </div>
+
+        <p class="love-note">
+          Happy 2 year anniversary, Nami! I love you so much. Every moment with you feels like magic.
+          <span class="signature">Love, your Ayush 💕</span>
+        </p>
+
+        <div class="flower-divider" aria-hidden="true">
+          <span>🌿</span><span>🌸</span><span>♡</span><span>🌸</span><span>🌿</span>
+        </div>
+
+        <div class="from-to" style="margin-bottom:0; margin-top:20px;">
+          <span class="heart-badge">Forever date buddies ✨</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- =======================================================
+         DATE ROULETTE
+         ======================================================= -->
+    <section class="roulette-wrap" aria-labelledby="roulette-title">
+      <article class="roulette-card">
+        <header class="roulette-header">
+          <div class="mini-kicker">💌 Our little adventure generator</div>
+          <h2 id="roulette-title">Where will life take us next? ✨</h2>
+        </header>
+
+        <div class="slot-machine" aria-live="polite" aria-atomic="true">
+          <div class="slot" id="slot-destination">
+            <div class="slot-icon" aria-hidden="true">🗺️</div>
+            <div class="slot-label">Destination</div>
+            <div class="slot-value" id="destination-value">Paris, France</div>
+          </div>
+
+          <div class="slot" id="slot-activity">
+            <div class="slot-icon" aria-hidden="true">🎨</div>
+            <div class="slot-label">Activity</div>
+            <div class="slot-value" id="activity-value">Sunset picnic</div>
+          </div>
+
+          <div class="slot" id="slot-cuisine">
+            <div class="slot-icon" aria-hidden="true">🍝</div>
+            <div class="slot-label">Vegetarian Cuisine</div>
+            <div class="slot-value" id="cuisine-value">Romantic authentic Italian pasta</div>
+          </div>
+        </div>
+
+        <div class="spin-controls">
+          <button class="spin-btn" id="spin-button" type="button">
+            Plan Our Next Date! 🎡
+          </button>
+        </div>
+
+        <section class="itinerary" id="itinerary-card" aria-labelledby="itinerary-title">
+          <div class="itinerary-kicker">🌸 Date Itinerary 🌸</div>
+          <h3 id="itinerary-title">Our next little love story</h3>
+
+          <div class="itinerary-grid">
+            <div class="itinerary-item">
+              <span>We’re going to</span>
+              <strong id="result-destination">Paris, France</strong>
+            </div>
+
+            <div class="itinerary-item">
+              <span>We’re doing</span>
+              <strong id="result-activity">Sunset picnic</strong>
+            </div>
+
+            <div class="itinerary-item">
+              <span>We’re eating</span>
+              <strong id="result-cuisine">Romantic authentic Italian pasta</strong>
+            </div>
+          </div>
+
+          <p class="little-promise">
+            <strong>Rule:</strong> hand-holding, photos together, dessert sharing, and at least one
+            “I can’t believe we’re here” moment. 💞
+          </p>
+        </section>
+      </article>
+    </section>
+
+    <footer>
+      Made with an unreasonable amount of love for Nami
+      <span class="footer-heart" aria-hidden="true">💗</span>
+    </footer>
+  </main>
+
+  <script>
+    /* =========================================================
+       ANNIVERSARY DATE ROULETTE
+       Vanilla JavaScript only, no framework required.
+       ========================================================= */
+
+    // Romantic getaway destinations.
+    const destinations = [
+      "Tokyo, Japan",
+      "Paris, France",
+      "Amalfi Coast, Italy",
+      "Kyoto, Japan",
+      "Swiss Alps, Switzerland",
+      "Venice, Italy",
+      "Santorini, Greece",
+      "Lake Como, Italy",
+      "Copenhagen, Denmark",
+      "Bali, Indonesia",
+      "Prague, Czechia",
+      "Vienna, Austria"
+    ];
+
+    // Cute couple activities.
+    const activities = [
+      "Pottery class together",
+      "Museum date",
+      "Couple's painting session",
+      "Botanical garden stroll",
+      "Sunset picnic",
+      "Cozy bookshop crawl",
+      "Scenic train ride",
+      "Flower arranging workshop",
+      "Private photo walk",
+      "Stargazing night",
+      "Vintage market date",
+      "Dessert-tasting crawl"
+    ];
+
+    // STRICTLY vegetarian cuisine ideas.
+    // No meat, fish, poultry, shellfish, or meat-based ingredients are included here.
+    const cuisines = [
+      "Artisan wood-fired margherita pizza",
+      "Romantic authentic Italian vegetarian pasta",
+      "Cozy vegetarian ramen",
+      "High-end French vegetarian bistro",
+      "Gourmet dessert café",
+      "Vegetarian handmade truffle ravioli",
+      "Elegant vegetarian Mediterranean mezze",
+      "Vegetarian Japanese tasting menu",
+      "Cozy vegetarian dumpling dinner",
+      "Vegetarian afternoon tea",
+      "Fresh vegetarian pesto gnocchi",
+      "Vegetarian tapas and mocktails"
+    ];
+
+    const spinButton = document.getElementById("spin-button");
+
+    const slots = {
+      destination: {
+        box: document.getElementById("slot-destination"),
+        value: document.getElementById("destination-value"),
+        options: destinations
+      },
+      activity: {
+        box: document.getElementById("slot-activity"),
+        value: document.getElementById("activity-value"),
+        options: activities
+      },
+      cuisine: {
+        box: document.getElementById("slot-cuisine"),
+        value: document.getElementById("cuisine-value"),
+        options: cuisines
+      }
+    };
+
+    const itineraryCard = document.getElementById("itinerary-card");
+    const resultDestination = document.getElementById("result-destination");
+    const resultActivity = document.getElementById("result-activity");
+    const resultCuisine = document.getElementById("result-cuisine");
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function randomItem(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function setSlot(slot, text) {
+      slot.value.textContent = text;
+    }
+
+    // Fast-changing placeholder values create a slot-machine feeling while spinning.
+    function animateSlot(slot, duration) {
+      slot.box.classList.add("spinning");
+
+      if (prefersReducedMotion) {
+        setSlot(slot, randomItem(slot.options));
+        slot.box.classList.remove("spinning");
+        return Promise.resolve(slot.value.textContent);
+      }
+
+      return new Promise(resolve => {
+        const cycle = setInterval(() => {
+          setSlot(slot, randomItem(slot.options));
+        }, 85);
+
+        setTimeout(() => {
+          clearInterval(cycle);
+          const finalChoice = randomItem(slot.options);
+          setSlot(slot, finalChoice);
+          slot.box.classList.remove("spinning");
+          resolve(finalChoice);
+        }, duration);
+      });
+    }
+
+    // A soft romantic confetti burst using canvas-confetti.
+    function celebrate() {
+      if (prefersReducedMotion || typeof confetti !== "function") return;
+
+      const defaults = {
+        particleCount: 55,
+        spread: 70,
+        startVelocity: 26,
+        ticks: 170,
+        gravity: 0.85,
+        scalar: 0.82,
+        shapes: ["circle", "square"]
+      };
+
+      confetti({
+        ...defaults,
+        angle: 60,
+        origin: { x: 0.18, y: 0.72 },
+        colors: ["#e79ab0", "#f5cbd7", "#fff2ef", "#aebfa5", "#d9b5c1"]
+      });
+
+      confetti({
+        ...defaults,
+        angle: 120,
+        origin: { x: 0.82, y: 0.72 },
+        colors: ["#e79ab0", "#f5cbd7", "#fff2ef", "#aebfa5", "#d9b5c1"]
+      });
+    }
+
+    async function spinDateRoulette() {
+      spinButton.disabled = true;
+      spinButton.textContent = "Spinning our fate... 💞";
+      itineraryCard.classList.remove("visible");
+
+      // Slightly staggered durations make the reels land one after another.
+      const [destination, activity, cuisine] = await Promise.all([
+        animateSlot(slots.destination, prefersReducedMotion ? 0 : 1050),
+        animateSlot(slots.activity, prefersReducedMotion ? 0 : 1320),
+        animateSlot(slots.cuisine, prefersReducedMotion ? 0 : 1590)
+      ]);
+
+      resultDestination.textContent = destination;
+      resultActivity.textContent = activity;
+      resultCuisine.textContent = cuisine;
+
+      itineraryCard.classList.add("visible");
+      celebrate();
+
+      spinButton.disabled = false;
+      spinButton.textContent = "Spin Again, My Love! 🎡";
+
+      // On smaller screens, gently bring the result into view.
+      if (window.innerWidth < 760 && !prefersReducedMotion) {
+        setTimeout(() => {
+          itineraryCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 220);
+      }
+    }
+
+    spinButton.addEventListener("click", spinDateRoulette);
+
+    /* =========================================================
+       FLOATING PETALS
+       Generated once at page load for a lightweight floral effect.
+       ========================================================= */
+    const petalLayer = document.getElementById("petal-layer");
+
+    function createPetals() {
+      if (prefersReducedMotion) return;
+
+      const petalCount = window.innerWidth < 640 ? 15 : 27;
+
+      for (let i = 0; i < petalCount; i++) {
+        const petal = document.createElement("span");
+        petal.className = "petal" + (i % 7 === 0 ? " sage" : "");
+
+        const left = Math.random() * 100;
+        const size = 8 + Math.random() * 11;
+        const fallDuration = 11 + Math.random() * 13;
+        const delay = -Math.random() * 20;
+        const swayDuration = 2.6 + Math.random() * 3.6;
+        const rotation = Math.random() * 180;
+
+        petal.style.left = left + "vw";
+        petal.style.width = size + "px";
+        petal.style.height = (size * 1.35) + "px";
+        petal.style.animationDuration = `${fallDuration}s, ${swayDuration}s`;
+        petal.style.animationDelay = `${delay}s, ${delay / 2}s`;
+        petal.style.transform = `rotate(${rotation}deg)`;
+
+        petalLayer.appendChild(petal);
+      }
+    }
+
+    createPetals();
+  </script>
+</body>
+</html>
